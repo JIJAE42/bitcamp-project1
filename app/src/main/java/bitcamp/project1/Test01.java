@@ -12,6 +12,7 @@ public class Test01 {
         System.out.println("개발자2");
         System.out.println("개발자2222");
         System.out.println("개발자222222222");
+        System.out.println("개발자22222222222216:52");
     }
     static void m3() {
         System.out.println("개발자1");
