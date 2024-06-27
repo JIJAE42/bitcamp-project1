@@ -13,36 +13,66 @@ public class Main {
         boolean running = true;
 
         while (running) {
-            System.out.println("----------------------------");
             System.out.println("1. 수입 추가");
             System.out.println("2. 지출 추가");
             System.out.println("3. 모든 거래 보기");
             System.out.println("4. 지출 내역 보기");
             System.out.println("5. 종료");
-            System.out.println("----------------------------");
             System.out.print("옵션을 선택하세요: ");
 
-
-            int choice = scanner.nextInt();
-            scanner.nextLine(); // Consume newline
+            int choice;
+            try {
+                choice = scanner.nextInt();
+                scanner.nextLine(); // Consume newline
+            } catch (Exception e) {
+                System.out.println("유효한 입력이 아닙니다.");
+                scanner.nextLine(); // Consume newline
+                continue;
+            }
 
             switch (choice) {
                 case 1:
                     System.out.print("날짜 입력 (YYYY-MM-DD): ");
-                    LocalDate incomeDate = LocalDate.parse(scanner.nextLine());
+                    LocalDate incomeDate;
+                    try {
+                        incomeDate = LocalDate.parse(scanner.nextLine());
+                    } catch (Exception e) {
+                        System.out.println("유효한 날짜 형식이 아닙니다.");
+                        continue;
+                    }
                     System.out.print("금액 입력: ");
-                    double incomeAmount = scanner.nextDouble();
-                    scanner.nextLine(); // Consume newline
+                    Long incomeAmount;
+                    try {
+                        incomeAmount = scanner.nextLong();
+                        scanner.nextLine(); // Consume newline
+                    } catch (Exception e) {
+                        System.out.println("유효한 금액 형식이 아닙니다.");
+                        scanner.nextLine(); // Consume newline
+                        continue;
+                    }
                     System.out.print("설명 입력: ");
                     String incomeDescription = scanner.nextLine();
                     accountBook.addTransaction(new Income(incomeDate, (long) incomeAmount, incomeDescription));
                     break;
                 case 2:
                     System.out.print("날짜 입력 (YYYY-MM-DD): ");
-                    LocalDate expenseDate = LocalDate.parse(scanner.nextLine());
+                    LocalDate expenseDate;
+                    try {
+                        expenseDate = LocalDate.parse(scanner.nextLine());
+                    } catch (Exception e) {
+                        System.out.println("유효한 날짜 형식이 아닙니다.");
+                        continue;
+                    }
                     System.out.print("금액 입력: ");
-                    double expenseAmount = scanner.nextDouble();
-                    scanner.nextLine(); // Consume newline
+                    long expenseAmount;
+                    try {
+                        expenseAmount = scanner.nextLong();
+                        scanner.nextLine(); // Consume newline
+                    } catch (Exception e) {
+                        System.out.println("유효한 금액 형식이 아닙니다.");
+                        scanner.nextLine(); // Consume newline
+                        continue;
+                    }
                     System.out.println("용도 선택:");
                     System.out.println("1. 주거");
                     System.out.println("2. 통신");
@@ -51,9 +81,16 @@ public class Main {
                     System.out.println("5. 식비");
                     System.out.println("6. 취미");
                     System.out.print("옵션을 선택하세요: ");
-                    int categoryChoice = scanner.nextInt();
-                    scanner.nextLine(); // Consume newline
-                    Expense.Category category = null;
+                    int categoryChoice;
+                    try {
+                        categoryChoice = scanner.nextInt();
+                        scanner.nextLine(); // Consume newline
+                    } catch (Exception e) {
+                        System.out.println("유효한 선택이 아닙니다.");
+                        scanner.nextLine(); // Consume newline
+                        continue;
+                    }
+                    Expense.Category category;
                     switch (categoryChoice) {
                         case 1:
                             category = Expense.Category.HOUSING;
@@ -74,7 +111,7 @@ public class Main {
                             category = Expense.Category.HOBBY;
                             break;
                         default:
-                            System.out.println("잘못된 선택입니다.");
+                            System.out.println("유효한 선택이 아닙니다.");
                             continue;
                     }
                     System.out.print("설명 입력: ");
@@ -101,8 +138,15 @@ public class Main {
                     System.out.println("   d. 전월 대비 지출 증감률");
                     System.out.print("옵션을 선택하세요: ");
 
-                    int expenseChoice = scanner.nextInt();
-                    scanner.nextLine(); // Consume newline
+                    int expenseChoice;
+                    try {
+                        expenseChoice = scanner.nextInt();
+                        scanner.nextLine(); // Consume newline
+                    } catch (Exception e) {
+                        System.out.println("유효한 선택이 아닙니다.");
+                        scanner.nextLine(); // Consume newline
+                        continue;
+                    }
 
                     switch (expenseChoice) {
                         case 1:
@@ -118,8 +162,15 @@ public class Main {
                             System.out.println("5. 식비");
                             System.out.println("6. 취미");
                             System.out.print("옵션을 선택하세요: ");
-                            int detailChoice = scanner.nextInt();
-                            scanner.nextLine(); // Consume newline
+                            int detailChoice;
+                            try {
+                                detailChoice = scanner.nextInt();
+                                scanner.nextLine(); // Consume newline
+                            } catch (Exception e) {
+                                System.out.println("유효한 선택이 아닙니다.");
+                                scanner.nextLine(); // Consume newline
+                                continue;
+                            }
                             switch (detailChoice) {
                                 case 1:
                                     accountBook.printTransactionsByCategory(Expense.Category.HOUSING);
@@ -140,7 +191,7 @@ public class Main {
                                     accountBook.printTransactionsByCategory(Expense.Category.HOBBY);
                                     break;
                                 default:
-                                    System.out.println("잘못된 선택입니다.");
+                                    System.out.println("유효한 선택이 아닙니다.");
                             }
                             break;
                         case 3:
@@ -150,45 +201,77 @@ public class Main {
                             System.out.println("c. 연도별 지출 내역 (사용자가 날짜 지정)");
                             System.out.println("d. 전월 대비 지출 증감률");
                             System.out.print("옵션을 선택하세요: ");
+
                             String periodChoice = scanner.nextLine();
 
                             switch (periodChoice) {
                                 case "a":
                                     System.out.print("날짜 입력 (YYYY-MM-DD): ");
-                                    LocalDate dailyDate = LocalDate.parse(scanner.nextLine());
+                                    LocalDate dailyDate;
+                                    try {
+                                        dailyDate = LocalDate.parse(scanner.nextLine());
+                                    } catch (Exception e) {
+                                        System.out.println("유효한 날짜 형식이 아닙니다.");
+                                        continue;
+                                    }
                                     accountBook.printDailyExpenses(dailyDate);
                                     break;
                                 case "b":
                                     System.out.print("날짜 입력 (YYYY-MM): ");
-                                    YearMonth monthlyDate = YearMonth.parse(scanner.nextLine());
+                                    YearMonth monthlyDate;
+                                    try {
+                                        monthlyDate = YearMonth.parse(scanner.nextLine());
+                                    } catch (Exception e) {
+                                        System.out.println("유효한 날짜 형식이 아닙니다.");
+                                        continue;
+                                    }
                                     accountBook.printMonthlyExpenses(monthlyDate);
                                     break;
                                 case "c":
                                     System.out.print("연도 입력 (YYYY): ");
-                                    int year = scanner.nextInt();
-                                    scanner.nextLine(); // Consume newline
+                                    int year;
+                                    try {
+                                        year = scanner.nextInt();
+                                        scanner.nextLine(); // Consume newline
+                                    } catch (Exception e) {
+                                        System.out.println("유효한 연도 형식이 아닙니다.");
+                                        scanner.nextLine(); // Consume newline
+                                        continue;
+                                    }
                                     accountBook.printYearlyExpenses(year);
                                     break;
                                 case "d":
                                     System.out.print("이전 월 입력 (YYYY-MM): ");
-                                    YearMonth previousMonth = YearMonth.parse(scanner.nextLine());
+                                    YearMonth previousMonth;
+                                    try {
+                                        previousMonth = YearMonth.parse(scanner.nextLine());
+                                    } catch (Exception e) {
+                                        System.out.println("유효한 날짜 형식이 아닙니다.");
+                                        continue;
+                                    }
                                     System.out.print("현재 월 입력 (YYYY-MM): ");
-                                    YearMonth currentMonth = YearMonth.parse(scanner.nextLine());
+                                    YearMonth currentMonth;
+                                    try {
+                                        currentMonth = YearMonth.parse(scanner.nextLine());
+                                    } catch (Exception e) {
+                                        System.out.println("유효한 날짜 형식이 아닙니다.");
+                                        continue;
+                                    }
                                     accountBook.printExpenseChangeRate(previousMonth, currentMonth);
                                     break;
                                 default:
-                                    System.out.println("잘못된 선택입니다.");
+                                    System.out.println("유효한 선택이 아닙니다.");
                             }
                             break;
                         default:
-                            System.out.println("잘못된 선택입니다.");
+                            System.out.println("유효한 선택이 아닙니다.");
                     }
                     break;
                 case 5:
                     running = false;
                     break;
                 default:
-                    System.out.println("잘못된 선택입니다. 다시 시도해주세요.");
+                    System.out.println("유효한 입력이 아닙니다.");
             }
         }
 
