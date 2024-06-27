@@ -7,6 +7,7 @@ import java.time.YearMonth;
 import java.util.Scanner;
 
 public class Main {
+
     public static void main(String[] args) {
         AccountBook accountBook = new AccountBook();
         Scanner scanner = new Scanner(System.in);
@@ -15,9 +16,10 @@ public class Main {
         while (running) {
             System.out.println("1. 수입 추가");
             System.out.println("2. 지출 추가");
-            System.out.println("3. 모든 거래 보기");
+            System.out.println("3. 거래 내역 보기");
             System.out.println("4. 지출 내역 보기");
-            System.out.println("5. 종료");
+            System.out.println("5. 메모장");
+            System.out.println("6. 종료");
             System.out.print("옵션을 선택하세요: ");
 
             int choice;
@@ -119,7 +121,34 @@ public class Main {
                     accountBook.addTransaction(new Expense(expenseDate, (long) expenseAmount, expenseDescription, category));
                     break;
                 case 3:
-                    accountBook.printAllTransactions();
+                    System.out.println("1. 전체 거래 내역");
+                    System.out.println("2. 수입 내역");
+                    System.out.println("3. 지출 내역");
+                    System.out.print("옵션을 선택하세요: ");
+
+                    int transactionChoice;
+                    try {
+                        transactionChoice = scanner.nextInt();
+                        scanner.nextLine();
+                    } catch (Exception e) {
+                        System.out.println("유효한 선택이 아닙니다.");
+                        scanner.nextLine();
+                        continue;
+                    }
+
+                    switch (transactionChoice) {
+                        case 1:
+                            accountBook.printAllTransactions();
+                            break;
+                        case 2:
+                            accountBook.printIncomeTransactions();
+                            break;
+                        case 3:
+                            accountBook.printExpenseTransactions();
+                            break;
+                        default:
+                            System.out.println("유효한 선택이 아닙니다.");
+                    }
                     break;
                 case 4:
                     System.out.println("1. 전체내역");
@@ -267,7 +296,52 @@ public class Main {
                             System.out.println("유효한 선택이 아닙니다.");
                     }
                     break;
+
                 case 5:
+                    boolean memoMenu = true;
+                    while (memoMenu) {
+                        System.out.println("메모장 메뉴");
+                        System.out.println("1. 등록");
+                        System.out.println("2. 목록");
+                        System.out.println("3. 변경");
+                        System.out.println("4. 삭제");
+                        System.out.println("5. 메모장 나가기");
+                        System.out.print("옵션을 선택하세요: ");
+
+                        int memoOption;
+                        try {
+                            memoOption = scanner.nextInt();
+                            scanner.nextLine(); // Consume newline
+                        } catch (Exception e) {
+                            System.out.println("유효한 입력이 아닙니다.");
+                            scanner.nextLine(); // Consume newline
+                            continue;
+                        }
+
+                        switch (memoOption) {
+                            case 1:
+                                Memo.addMemo(scanner);
+                                break;
+                            case 2:
+                                Memo.listMemos();
+                                break;
+                            case 3:
+                                Memo.editMemo(scanner);
+                                break;
+                            case 4:
+                                Memo.deleteMemo(scanner);
+                                break;
+                            case 5:
+                                memoMenu = false;
+                                break;
+                            default:
+                                System.out.println("유효한 입력이 아닙니다.");
+                        }
+                    }
+                    break;
+
+
+                case 6:
                     running = false;
                     break;
                 default:

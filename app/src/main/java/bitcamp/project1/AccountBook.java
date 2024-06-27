@@ -87,4 +87,22 @@ public class AccountBook {
         long changeRate = (currentTotal - previousTotal) / previousTotal * 100;
         System.out.println(previousMonth + " 대비 " + currentMonth + "의 지출 증감률: " + String.format("%.2f", changeRate) + "%");
     }
+
+
+
+    public void printExpenseTransactions() {
+        for (Transaction transaction : transactions) {
+            if (transaction instanceof Income) {
+                System.out.println(transaction);
+            }
+        }
+    }
+
+    public void printIncomeTransactions() {
+        for (Transaction transaction : transactions) {
+            if (transaction instanceof Expense) {
+                System.out.println(transaction);
+            }
+        }
+    }
 }
