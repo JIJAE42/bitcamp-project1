@@ -11,5 +11,6 @@ public class Test01 {
     static void m2() {
         System.out.println("개발자2");
         System.out.println("개발자2222");
+        System.out.println("개발자222222222");
     }
 }
