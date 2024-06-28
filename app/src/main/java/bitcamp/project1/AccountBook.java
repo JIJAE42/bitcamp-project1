@@ -30,6 +30,24 @@ public class AccountBook {
         }
     }
 
+    public void printIncomeTransactions() {
+        System.out.println("수입 내역:");
+        for (Transaction transaction : transactions) {
+            if (transaction instanceof Income) {
+                System.out.println(transaction);
+            }
+        }
+    }
+
+    public void printExpenseTransactions() {
+        System.out.println("지출 내역:");
+        for (Transaction transaction : transactions) {
+            if (transaction instanceof Expense) {
+                System.out.println(transaction);
+            }
+        }
+    }
+
     public void printTransactionsByCategory(Expense.Category category) {
         System.out.println(category + " 내역:");
         for (Transaction transaction : transactions) {
@@ -86,23 +104,5 @@ public class AccountBook {
 
         long changeRate = (currentTotal - previousTotal) / previousTotal * 100;
         System.out.println(previousMonth + " 대비 " + currentMonth + "의 지출 증감률: " + String.format("%.2f", changeRate) + "%");
-    }
-
-
-
-    public void printExpenseTransactions() {
-        for (Transaction transaction : transactions) {
-            if (transaction instanceof Income) {
-                System.out.println(transaction);
-            }
-        }
-    }
-
-    public void printIncomeTransactions() {
-        for (Transaction transaction : transactions) {
-            if (transaction instanceof Expense) {
-                System.out.println(transaction);
-            }
-        }
     }
 }
